@@ -1,0 +1,22 @@
+{
+  "name": "haoma",
+  "version": "0.0.1",
+  "description": "Count the number of videos per game.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jekku/haoma.git"
+  },
+  "keywords": [
+    "haoma"
+  ],
+  "author": "Jekri Preclaro Orlina <jekri.orlina@any.tv> (http://github.com/jekku)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jekku/haoma/issues"
+  },
+  "homepage": "https://github.com/jekku/haoma#readme"
+}
