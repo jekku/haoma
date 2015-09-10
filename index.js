@@ -14,29 +14,52 @@ let gathered_data = [],
     },
 
     gather_ids = (err, result) => {
-
         if (err) {
             return console.warn(err);
         }
+        let partitioned_ids = [];
 
         gathered_data = _.map(result, (item) => {
-            return {
-                game_id: item.game_id
+            return {game_id: item.game_id}
+        });
+
+        partitioned_ids = partition(gathered_data, 20);
+
+        exec(partitioned_ids);
+    },
+
+    exec = (partitioned_ids) => {
+        let jobs = create_jobs(partitioned_ids);
+
+        async.series(jobs, (err, result) => {
+            console.log(_.merge.apply(null, result));
+        });
+    },
+
+    create_jobs = (x) => {
+        let jobs = _.map(x, (game_ids) => {
+            let j = _.reduce(game_ids, (result, game) => {
+                result[game.game_id] = get_videos.bind(null, game.game_id)
+
+                return result;
+            }, {});
+
+            return function (cb) {
+                async.parallel(j, (err, result) => {
+                    cb(err, result);
+                })
             }
         });
 
-        bind_video_counts();
+        return jobs;
     },
 
-    bind_video_counts = () => {
-        let jobs = _.reduce(gathered_data, (result, game) => {
-            result[game.game_id] = get_videos.bind(null, game.game_id);
-            return result
-        }, {});
-
-        async.parallel(jobs, (err, result) => {
-            console.log(result);
+    partition = (items, n) => {
+        var result = _.groupBy(items, function(item, i) {
+            return Math.floor(i % n);
         });
+
+        return _.values(result);
     },
 
     get_videos = (game_id, callback) => {
