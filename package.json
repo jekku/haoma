@@ -21,6 +21,7 @@
   "homepage": "https://github.com/jekku/haoma#readme",
   "dependencies": {
     "anytv-node-mongo": "0.0.8",
+    "async": "^1.4.2",
     "cuddle": "0.0.50",
     "lodash": "^3.10.1"
   }
